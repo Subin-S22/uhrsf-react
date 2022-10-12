@@ -102,7 +102,7 @@ const Home = () => {
   useEffect(() => {
     switch (activeStep) {
       case 0:
-        setCurrent({ p: DocumentsDetails });
+        setCurrent({ p: PersonalDetails });
         break;
       case 1:
         setCurrent({ p: ContactDetails });
