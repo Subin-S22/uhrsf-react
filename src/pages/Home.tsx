@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Box,
   Button,
@@ -10,8 +9,8 @@ import {
   Stepper,
   styled,
 } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import { AiFillCheckCircle as Check } from "react-icons/ai";
-import { useEffect, useState } from "react";
 import * as Yup from "yup";
 import ContactDetails from "../components/ContactDetails";
 import DocumentsDetails from "../components/DocumentsDetails";

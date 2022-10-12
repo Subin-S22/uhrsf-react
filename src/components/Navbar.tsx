@@ -1,9 +1,6 @@
-import React from "react";
 import { Menu, Transition } from "@headlessui/react";
-import { Fragment } from "react";
+import React, { Fragment } from "react";
 import { GoThreeBars } from "react-icons/go";
-
-type Props = {};
 
 const navBarTitle = [
   "Home",
@@ -54,7 +51,7 @@ function Mobile() {
   );
 }
 
-function Navbar({}: Props) {
+function Navbar() {
   return (
     <div className="sticky top-0 z-10 flex gap-8 w-full bg-purple-900 shadow-lg p-4">
       <div className="flex">

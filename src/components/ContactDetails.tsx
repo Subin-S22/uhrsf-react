@@ -1,7 +1,7 @@
-import { Formik, Form } from "formik";
+import { Form, Formik } from "formik";
 import React from "react";
-import _Field from "./_Field";
 import * as Yup from "yup";
+import Field from "./_Field";
 
 interface Props {
   validation: any;
@@ -44,7 +44,7 @@ function ContactDetails({ handleNext }: Props) {
           className=" flex-wrap gap-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3
              mt-4 max-w-6xl mx-auto"
         >
-          <_Field
+          <Field
             label="Address"
             name="address"
             type="text"
@@ -55,7 +55,7 @@ function ContactDetails({ handleNext }: Props) {
             error={props.touched.address && Boolean(props.errors.address)}
             helperText={props.touched.address && props.errors.address}
           />
-          <_Field
+          <Field
             label="City"
             name="city"
             as="select"
@@ -69,7 +69,7 @@ function ContactDetails({ handleNext }: Props) {
             error={props.touched.city && Boolean(props.errors.city)}
             helperText={props.touched.city && props.errors.city}
           />
-          <_Field
+          <Field
             label="State"
             name="state"
             as="select"
@@ -83,7 +83,7 @@ function ContactDetails({ handleNext }: Props) {
             error={props.touched.state && Boolean(props.errors.state)}
             helperText={props.touched.state && props.errors.state}
           />
-          <_Field
+          <Field
             label="Pin Code"
             name="pincode"
             type="number"
@@ -92,7 +92,7 @@ function ContactDetails({ handleNext }: Props) {
             error={props.touched.pincode && Boolean(props.errors.pincode)}
             helperText={props.touched.pincode && props.errors.pincode}
           />
-          <_Field
+          <Field
             label="Nationality"
             name="nationality"
             type="text"

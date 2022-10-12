@@ -1,7 +1,7 @@
-import { Formik, Form } from "formik";
+import { Form, Formik } from "formik";
 import React from "react";
-import Field from "./_Field";
 import * as Yup from "yup";
+import Field from "./_Field";
 
 interface Props {
   validation: any;
