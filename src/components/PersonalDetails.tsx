@@ -6,9 +6,11 @@ import {
   Select,
 } from "@mui/material";
 import { Form, Formik } from "formik";
-import React from "react";
+import React, { useContext } from "react";
 import * as Yup from "yup";
 import Field from "./_Field";
+import { AppContext } from "../store";
+import { TYPE } from "../store/reducers/registrationFormReducer";
 
 interface Props {
   validation: any;
@@ -71,11 +73,17 @@ const initialValues: Initial = {
 };
 
 export default function PersonalDetails({ handleNext }: Props) {
+  const store = useContext(AppContext);
+
+  console.log(store);
   return (
     <Formik
       initialValues={initialValues}
       onSubmit={(values) => {
-        console.log(values);
+        store?.action({
+          type: TYPE.add,
+          payload: values,
+        });
         handleNext();
       }}
       validationSchema={validation}
