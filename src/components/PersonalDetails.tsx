@@ -5,7 +5,7 @@ import {
   MenuItem,
   Select,
 } from "@mui/material";
-import { Form, Formik } from "formik";
+import { Form, Formik, FormikProps } from "formik";
 import React, { useContext } from "react";
 import * as Yup from "yup";
 import Field from "./_Field";
@@ -56,6 +56,8 @@ const validation = Yup.object({
   bloodgroup: Yup.string().required("Required"),
   qualification: Yup.string().required("Required"),
   profession: Yup.string().required("Required"),
+  referralId: Yup.string(),
+  referralName: Yup.string(),
 });
 
 type Initial = Yup.InferType<typeof validation>;
@@ -70,10 +72,20 @@ const initialValues: Initial = {
   bloodgroup: "",
   qualification: "",
   profession: "",
+  referralId: "",
+  referralName: "",
 };
 
 export default function PersonalDetails({ handleNext }: Props) {
   const store = useContext(AppContext);
+
+  const getReferral = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    props: FormikProps<Initial>
+  ) => {
+    props.handleChange(e);
+    if (e.target.value === "abc") props.setFieldValue("referralName", "NO one");
+  };
 
   console.log(store);
   return (
@@ -143,16 +155,6 @@ export default function PersonalDetails({ handleNext }: Props) {
             }
             helperText={props.touched.dateofbirth && props.errors.dateofbirth}
           />
-          {/* <_Field
-            label="Gender"
-            name="gender"
-            as="select"
-            options={[
-              { value: "male", name: "Male" },
-              { value: "female", name: "Female" },
-              { value: "others", name: "Others" },
-            ]}
-          /> */}
           <FormControl
             error={props.touched.gender && Boolean(props.errors.gender)}
           >
@@ -245,6 +247,24 @@ export default function PersonalDetails({ handleNext }: Props) {
               {props.touched.profession && props.errors.profession}
             </FormHelperText>
           </FormControl>
+          <Field
+            label="Referral Id"
+            name="referralId"
+            type="text"
+            value={props.values.referralId}
+            onChange={(e) => {
+              getReferral(e, props);
+            }}
+            error={props.touched.referralId && Boolean(props.errors.referralId)}
+            helperText={props.touched.referralId && props.errors.referralId}
+          />
+          <Field
+            label="Referral Name"
+            name="referralName"
+            type="text"
+            value={props.values.referralName}
+            disabled
+          />
           <button
             className="btn md:col-span-2 lg:col-span-3 mt-4"
             type="submit"
