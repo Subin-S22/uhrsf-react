@@ -11,6 +11,7 @@ import * as Yup from "yup";
 import Field from "./_Field";
 import { AppContext } from "../store";
 import { TYPE } from "../store/reducers/registrationFormReducer";
+import axios from "axios";
 
 interface Props {
   validation: any;
@@ -38,53 +39,61 @@ const phoneRegExp =
   /^[\\+]?[(]?[0-9]{3}[)]?[-\s\\.]?[0-9]{3}[-\s\\.]?[0-9]{4,6}$/im;
 
 const validation = Yup.object({
-  name: Yup.string()
+  firstAndLastName: Yup.string()
     .min(3, "too short!")
     .max(256, "too long!")
     .required("Required!"),
-  email: Yup.string().email("Invalid Email").required("Required"),
-  guardian: Yup.string()
+  emailId: Yup.string().email("Invalid Email").required("Required"),
+  parentsName: Yup.string()
     .min(3, "too short!")
     .max(256, "too long!")
     .required("Required!"),
-  phonenumber: Yup.string()
+  mobileNumber: Yup.string()
     .matches(phoneRegExp, "Phone number is not valid")
     .max(10, "Phone number should be 10 digits")
     .required("Required"),
-  dateofbirth: Yup.string().required("DOB is Required"),
+  dob: Yup.string().required("DOB is Required"),
   gender: Yup.string().required("Required"),
-  bloodgroup: Yup.string().required("Required"),
+  bloodGroup: Yup.string().required("Required"),
   qualification: Yup.string().required("Required"),
   profession: Yup.string().required("Required"),
-  referralId: Yup.string(),
-  referralName: Yup.string(),
+  referredBy: Yup.string(),
+  referredByName: Yup.string(),
 });
 
 type Initial = Yup.InferType<typeof validation>;
 
 const initialValues: Initial = {
-  name: "",
-  email: "",
-  guardian: "",
-  phonenumber: "",
-  dateofbirth: "",
+  firstAndLastName: "",
+  emailId: "",
+  parentsName: "",
+  mobileNumber: "",
+  dob: "",
   gender: "",
-  bloodgroup: "",
+  bloodGroup: "",
   qualification: "",
   profession: "",
-  referralId: "",
-  referralName: "",
+  referredBy: "",
+  referredByName: "",
 };
 
 export default function PersonalDetails({ handleNext }: Props) {
   const store = useContext(AppContext);
 
-  const getReferral = (
+
+  const handleReferral = async (
     e: React.ChangeEvent<HTMLInputElement>,
-    props: FormikProps<Initial>
+    props: FormikProps<any>
   ) => {
-    props.handleChange(e);
-    if (e.target.value === "abc") props.setFieldValue("referralName", "NO one");
+    try {
+      props.handleChange(e);
+      if (e.target.value.length > 9) {
+        const res = await axios.get(`http://mahasamrudhi.com/uhrsf_dev/api/v1/uhrsf/return-referred-details?referredId=${e.target.value}`);
+        props.setFieldValue("referredByName", res.data.data.referredName);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   console.log(store);
@@ -107,53 +116,53 @@ export default function PersonalDetails({ handleNext }: Props) {
         >
           <Field
             label="Full Name"
-            name="name"
+            name="firstAndLastName"
             type="text"
-            value={props.values.name}
+            value={props.values.firstAndLastName}
             onChange={props.handleChange}
-            error={props.touched.name && Boolean(props.errors.name)}
-            helperText={props.touched.name && props.errors.name}
+            error={props.touched.firstAndLastName && Boolean(props.errors.firstAndLastName)}
+            helperText={props.touched.firstAndLastName && props.errors.firstAndLastName}
           />
           <Field
             label="Father's Name / Mother's Name / Husband's Name"
-            name="guardian"
+            name="parentsName"
             type="text"
-            value={props.values.guardian}
+            value={props.values.parentsName}
             onChange={props.handleChange}
-            error={props.touched.guardian && Boolean(props.errors.guardian)}
-            helperText={props.touched.guardian && props.errors.guardian}
+            error={props.touched.parentsName && Boolean(props.errors.parentsName)}
+            helperText={props.touched.parentsName && props.errors.parentsName}
           />
 
           <Field
             label="Email Address"
-            name="email"
+            name="emailId"
             type="email"
-            value={props.values.email}
+            value={props.values.emailId}
             onChange={props.handleChange}
-            error={props.touched.email && Boolean(props.errors.email)}
-            helperText={props.touched.email && props.errors.email}
+            error={props.touched.emailId && Boolean(props.errors.emailId)}
+            helperText={props.touched.emailId && props.errors.emailId}
           />
           <Field
             label="Phone Number"
-            name="phonenumber"
+            name="mobileNumber"
             type="tel"
-            value={props.values.phonenumber}
+            value={props.values.mobileNumber}
             onChange={props.handleChange}
             error={
-              props.touched.phonenumber && Boolean(props.errors.phonenumber)
+              props.touched.mobileNumber && Boolean(props.errors.mobileNumber)
             }
-            helperText={props.touched.phonenumber && props.errors.phonenumber}
+            helperText={props.touched.mobileNumber && props.errors.mobileNumber}
           />
           <Field
             label="Date of Birth"
-            name="dateofbirth"
+            name="dob"
             type="date"
-            value={props.values.dateofbirth}
+            value={props.values.dob}
             onChange={props.handleChange}
             error={
-              props.touched.dateofbirth && Boolean(props.errors.dateofbirth)
+              props.touched.dob && Boolean(props.errors.dob)
             }
-            helperText={props.touched.dateofbirth && props.errors.dateofbirth}
+            helperText={props.touched.dob && props.errors.dob}
           />
           <FormControl
             error={props.touched.gender && Boolean(props.errors.gender)}
@@ -176,14 +185,14 @@ export default function PersonalDetails({ handleNext }: Props) {
             </FormHelperText>
           </FormControl>
           <FormControl
-            error={props.touched.bloodgroup && Boolean(props.errors.bloodgroup)}
+            error={props.touched.bloodGroup && Boolean(props.errors.bloodGroup)}
           >
             <InputLabel id="demo-simple-select-label">Blood Group</InputLabel>
             <Select
-              name="bloodgroup"
+              name="bloodGroup"
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              value={props.values.bloodgroup}
+              value={props.values.bloodGroup}
               label="Blood Group"
               onChange={props.handleChange}
             >
@@ -194,7 +203,7 @@ export default function PersonalDetails({ handleNext }: Props) {
               ))}
             </Select>
             <FormHelperText>
-              {props.touched.bloodgroup && props.errors.bloodgroup}
+              {props.touched.bloodGroup && props.errors.bloodGroup}
             </FormHelperText>
           </FormControl>
           <FormControl
@@ -249,20 +258,20 @@ export default function PersonalDetails({ handleNext }: Props) {
           </FormControl>
           <Field
             label="Referral Id"
-            name="referralId"
+            name="referredBy"
             type="text"
-            value={props.values.referralId}
-            onChange={(e) => {
-              getReferral(e, props);
-            }}
-            error={props.touched.referralId && Boolean(props.errors.referralId)}
-            helperText={props.touched.referralId && props.errors.referralId}
+            value={props.values.referredBy}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              handleReferral(e, props)
+            }
+            error={props.touched.referredBy && Boolean(props.errors.referredBy)}
+            helperText={props.touched.referredBy && props.errors.referredBy}
           />
           <Field
             label="Referral Name"
-            name="referralName"
+            name="referredByName"
             type="text"
-            value={props.values.referralName}
+            value={props.values.referredByName}
             disabled
           />
           <button
