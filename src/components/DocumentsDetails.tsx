@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import * as Yup from "yup";
 import Field from "./_Field";
 import { AppContext } from "../store";
@@ -48,6 +48,7 @@ export const memberRegister = async (reqBody) => {
         },
       }
     );
+    toast.success("Member Registered Successfully");
     return res;
   } catch (err) {
     throw err;
@@ -56,28 +57,33 @@ export const memberRegister = async (reqBody) => {
 
 const DocumentsDetails = ({ handleNext }: Props) => {
   const store = useContext(AppContext);
-  console.log(store);
+
+  const [photos, setPhotos] = useState<{
+    aadharPhoto: any;
+    pancardPhoto: any;
+    memberPhoto: any;
+  }>({
+    aadharPhoto: "",
+    pancardPhoto: "",
+    memberPhoto: "",
+  });
 
   const addMembers = async (values) => {
     try {
       const formData = new FormData();
 
-      // formData.append("aadharCard", values.aadharCardLink);
-      // formData.append("pancard", values.panCardLink);
-      // formData.append("memberPhoto", values.memberPhotoLink);
-
-      if (values.aadharCardLink instanceof Object) {
-        formData.append("aadharCard", values.aadharCardLink);
+      if (photos.aadharPhoto instanceof Object) {
+        formData.append("aadharCard", photos.aadharPhoto);
       } else {
         formData.append("aadharCard", new Blob([new Uint8Array([])]));
       }
-      if (values.panCardLink instanceof Object) {
-        formData.append("pancard", values.panCardLink);
+      if (photos.pancardPhoto instanceof Object) {
+        formData.append("pancard", photos.pancardPhoto);
       } else {
         formData.append("pancard", new Blob([new Uint8Array([])]));
       }
-      if (values.memberPhotoLink instanceof Object) {
-        formData.append("memberPhoto", values.memberPhotoLink);
+      if (photos.memberPhoto instanceof Object) {
+        formData.append("memberPhoto", photos.memberPhoto);
       } else {
         formData.append("memberPhoto", new Blob([new Uint8Array([])]));
       }
@@ -85,7 +91,10 @@ const DocumentsDetails = ({ handleNext }: Props) => {
       delete values.aadharCardLink;
       delete values.panCardLink;
       delete values.memberPhotoLink;
-      formData.append("memberRegister", JSON.stringify(values));
+      formData.append(
+        "memberRegister",
+        JSON.stringify(store?.state.registration)
+      );
       await memberRegister(formData);
       toast.success("Successfully registered");
     } catch (err: unknown) {
@@ -129,9 +138,10 @@ const DocumentsDetails = ({ handleNext }: Props) => {
             name="aadharCardLink"
             type="file"
             value={props.values.aadharCardLink}
-            onChange={(e) =>
-              props.setFieldValue("aadharCardLink", e.target.files?.[0])
-            }
+            onChange={(e) => {
+              props.handleChange(e);
+              setPhotos(e.target.files?.[0] as any);
+            }}
             error={
               props.touched.aadharCardLink &&
               Boolean(props.errors.aadharCardLink)
@@ -154,9 +164,10 @@ const DocumentsDetails = ({ handleNext }: Props) => {
             name="panCardLink"
             type="file"
             value={props.values.panCardLink}
-            onChange={(e) =>
-              props.setFieldValue("panCardLink", e.target.files?.[0])
-            }
+            onChange={(e) => {
+              props.handleChange(e);
+              setPhotos(e.target.files?.[0] as any);
+            }}
             error={
               props.touched.panCardLink && Boolean(props.errors.panCardLink)
             }
@@ -167,9 +178,10 @@ const DocumentsDetails = ({ handleNext }: Props) => {
             name="memberPhotoLink"
             type="file"
             value={props.values.memberPhotoLink}
-            onChange={(e) =>
-              props.setFieldValue("memberPhotoLink", e.target.files?.[0])
-            }
+            onChange={(e) => {
+              props.handleChange(e);
+              setPhotos(e.target.files?.[0] as any);
+            }}
             error={
               props.touched.memberPhotoLink &&
               Boolean(props.errors.memberPhotoLink)

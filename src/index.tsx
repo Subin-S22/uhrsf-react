@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import ContextProvider from "./store/ContextProvider";
-import { ToastContainer, Zoom } from 'react-toastify'
+import { ToastContainer, Zoom } from "react-toastify";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -14,12 +14,9 @@ root.render(
     <App />
     <ToastContainer
       position="bottom-right"
-      autoClose={2000}
-      closeOnClick
-      pauseOnHover
-      hideProgressBar={false}
-      limit={3}
       newestOnTop={true}
+      closeOnClick
+      autoClose={2000}
       transition={Zoom}
     />
   </ContextProvider>
