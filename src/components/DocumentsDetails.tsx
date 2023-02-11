@@ -4,8 +4,8 @@ import * as Yup from "yup";
 import Field from "./_Field";
 import { AppContext } from "../store";
 import { TYPE } from "../store/reducers/registrationFormReducer";
-import axios from 'axios'
-import { toast } from 'react-toastify'
+import axios from "axios";
+import { toast } from "react-toastify";
 
 interface Props {
   validation: any;
@@ -39,11 +39,15 @@ const initialValues: Initial = {
 
 export const memberRegister = async (reqBody) => {
   try {
-    const res = await axios.post("http://mahasamrudhi.com/uhrsf_dev/api/v1/uhrsf/member-register", reqBody, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    const res = await axios.post(
+      "http://csnservernet.tech/uhrsf_dev/api/v1/uhrsf/member-register",
+      reqBody,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
     return res;
   } catch (err) {
     throw err;
@@ -100,9 +104,7 @@ const DocumentsDetails = ({ handleNext }: Props) => {
             type="number"
             value={props.values.aadharcard}
             onChange={props.handleChange}
-            error={
-              props.touched.aadharcard && Boolean(props.errors.aadharcard)
-            }
+            error={props.touched.aadharcard && Boolean(props.errors.aadharcard)}
             helperText={props.touched.aadharcard && props.errors.aadharcard}
           />
           <Field
@@ -112,9 +114,12 @@ const DocumentsDetails = ({ handleNext }: Props) => {
             value={props.values.aadharCardLink}
             onChange={props.handleChange}
             error={
-              props.touched.aadharCardLink && Boolean(props.errors.aadharCardLink)
+              props.touched.aadharCardLink &&
+              Boolean(props.errors.aadharCardLink)
             }
-            helperText={props.touched.aadharCardLink && props.errors.aadharCardLink}
+            helperText={
+              props.touched.aadharCardLink && props.errors.aadharCardLink
+            }
           />
           <Field
             label="PAN Card Number"
@@ -131,7 +136,9 @@ const DocumentsDetails = ({ handleNext }: Props) => {
             type="file"
             value={props.values.panCardLink}
             onChange={props.handleChange}
-            error={props.touched.panCardLink && Boolean(props.errors.panCardLink)}
+            error={
+              props.touched.panCardLink && Boolean(props.errors.panCardLink)
+            }
             helperText={props.touched.panCardLink && props.errors.panCardLink}
           />
           <Field
@@ -141,9 +148,12 @@ const DocumentsDetails = ({ handleNext }: Props) => {
             value={props.values.memberPhotoLink}
             onChange={props.handleChange}
             error={
-              props.touched.memberPhotoLink && Boolean(props.errors.memberPhotoLink)
+              props.touched.memberPhotoLink &&
+              Boolean(props.errors.memberPhotoLink)
             }
-            helperText={props.touched.memberPhotoLink && props.errors.memberPhotoLink}
+            helperText={
+              props.touched.memberPhotoLink && props.errors.memberPhotoLink
+            }
           />
 
           <button

@@ -80,7 +80,6 @@ const initialValues: Initial = {
 export default function PersonalDetails({ handleNext }: Props) {
   const store = useContext(AppContext);
 
-
   const handleReferral = async (
     e: React.ChangeEvent<HTMLInputElement>,
     props: FormikProps<any>
@@ -88,7 +87,9 @@ export default function PersonalDetails({ handleNext }: Props) {
     try {
       props.handleChange(e);
       if (e.target.value.length > 9) {
-        const res = await axios.get(`http://mahasamrudhi.com/uhrsf_dev/api/v1/uhrsf/return-referred-details?referredId=${e.target.value}`);
+        const res = await axios.get(
+          `http://csnservernet.tech/uhrsf_dev/api/v1/uhrsf/return-referred-details?referredId=${e.target.value}`
+        );
         props.setFieldValue("referredByName", res.data.data.referredName);
       }
     } catch (err) {
@@ -120,8 +121,13 @@ export default function PersonalDetails({ handleNext }: Props) {
             type="text"
             value={props.values.firstAndLastName}
             onChange={props.handleChange}
-            error={props.touched.firstAndLastName && Boolean(props.errors.firstAndLastName)}
-            helperText={props.touched.firstAndLastName && props.errors.firstAndLastName}
+            error={
+              props.touched.firstAndLastName &&
+              Boolean(props.errors.firstAndLastName)
+            }
+            helperText={
+              props.touched.firstAndLastName && props.errors.firstAndLastName
+            }
           />
           <Field
             label="Father's Name / Mother's Name / Husband's Name"
@@ -129,7 +135,9 @@ export default function PersonalDetails({ handleNext }: Props) {
             type="text"
             value={props.values.parentsName}
             onChange={props.handleChange}
-            error={props.touched.parentsName && Boolean(props.errors.parentsName)}
+            error={
+              props.touched.parentsName && Boolean(props.errors.parentsName)
+            }
             helperText={props.touched.parentsName && props.errors.parentsName}
           />
 
@@ -159,9 +167,7 @@ export default function PersonalDetails({ handleNext }: Props) {
             type="date"
             value={props.values.dob}
             onChange={props.handleChange}
-            error={
-              props.touched.dob && Boolean(props.errors.dob)
-            }
+            error={props.touched.dob && Boolean(props.errors.dob)}
             helperText={props.touched.dob && props.errors.dob}
           />
           <FormControl
