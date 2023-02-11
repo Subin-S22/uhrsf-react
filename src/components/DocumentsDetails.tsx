@@ -62,9 +62,26 @@ const DocumentsDetails = ({ handleNext }: Props) => {
     try {
       const formData = new FormData();
 
-      formData.append("aadharCard", values.aadharCardLink);
-      formData.append("pancard", values.panCardLink);
-      formData.append("memberPhoto", values.memberPhotoLink);
+      // formData.append("aadharCard", values.aadharCardLink);
+      // formData.append("pancard", values.panCardLink);
+      // formData.append("memberPhoto", values.memberPhotoLink);
+
+      if (values.aadharCardLink instanceof Object) {
+        formData.append("aadharCard", values.aadharCardLink);
+      } else {
+        formData.append("aadharCard", new Blob([new Uint8Array([])]));
+      }
+      if (values.panCardLink instanceof Object) {
+        formData.append("pancard", values.panCardLink);
+      } else {
+        formData.append("pancard", new Blob([new Uint8Array([])]));
+      }
+      if (values.memberPhotoLink instanceof Object) {
+        formData.append("memberPhoto", values.memberPhotoLink);
+      } else {
+        formData.append("memberPhoto", new Blob([new Uint8Array([])]));
+      }
+
       delete values.aadharCardLink;
       delete values.panCardLink;
       delete values.memberPhotoLink;
@@ -112,7 +129,9 @@ const DocumentsDetails = ({ handleNext }: Props) => {
             name="aadharCardLink"
             type="file"
             value={props.values.aadharCardLink}
-            onChange={props.handleChange}
+            onChange={(e) =>
+              props.setFieldValue("aadharCardLink", e.target.files?.[0])
+            }
             error={
               props.touched.aadharCardLink &&
               Boolean(props.errors.aadharCardLink)
@@ -135,7 +154,9 @@ const DocumentsDetails = ({ handleNext }: Props) => {
             name="panCardLink"
             type="file"
             value={props.values.panCardLink}
-            onChange={props.handleChange}
+            onChange={(e) =>
+              props.setFieldValue("panCardLink", e.target.files?.[0])
+            }
             error={
               props.touched.panCardLink && Boolean(props.errors.panCardLink)
             }
@@ -146,7 +167,9 @@ const DocumentsDetails = ({ handleNext }: Props) => {
             name="memberPhotoLink"
             type="file"
             value={props.values.memberPhotoLink}
-            onChange={props.handleChange}
+            onChange={(e) =>
+              props.setFieldValue("memberPhotoLink", e.target.files?.[0])
+            }
             error={
               props.touched.memberPhotoLink &&
               Boolean(props.errors.memberPhotoLink)
