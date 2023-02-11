@@ -12,7 +12,7 @@ interface Props {
   handleNext: () => void;
 }
 
-const aadharRegex = /^[01]\d{3}[\s-]?\d{4}[\s-]?\d{4}$/;
+const aadharRegex = /^\d{4}[\s-]?\d{4}[\s-]?\d{4}$/;
 const panRegex = /[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
 
 const validation = Yup.object({
