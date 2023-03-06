@@ -112,7 +112,7 @@ function ContactDetails({ handleNext }: Props) {
             className="btn md:col-span-2 lg:col-span-3 mt-4"
             type="submit"
           >
-            Save
+            Next
           </button>
         </Form>
       )}
