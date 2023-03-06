@@ -30,9 +30,15 @@ const bloodGroups = [
 ];
 
 const qualification = [
-  { value: "BE", name: "B.E" },
-  { value: "BA", name: "BA" },
-  { value: "BSc", name: "B.Sc" },
+  { value: "Illiterate", name: "Illiterate" },
+  { value: "Primary Education", name: "Primary Education" },
+  {
+    value: "Secondary Education or high school",
+    name: "Secondary Education or high school",
+  },
+  { value: "Bachelor's Degree", name: "Bachelor's Degree" },
+  { value: "Master's Degree", name: "Master's Degree" },
+  { value: "Doctorate or higher", name: "Doctorate or higher" },
 ];
 
 const phoneRegExp =
@@ -236,32 +242,17 @@ export default function PersonalDetails({ handleNext }: Props) {
               {props.touched.qualification && props.errors.qualification}
             </FormHelperText>
           </FormControl>
-          <FormControl
+          <Field
+            label="Profession"
+            name="profession"
+            type="text"
+            value={props.values.profession}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              handleReferral(e, props)
+            }
             error={props.touched.profession && Boolean(props.errors.profession)}
-          >
-            <InputLabel id="demo-simple-select-label">Profession</InputLabel>
-            <Select
-              name="profession"
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={props.values.profession}
-              label="Profession"
-              onChange={props.handleChange}
-            >
-              {[
-                { value: "Public sector", name: "Public Sector" },
-                { value: "Private sector", name: "Private Sector" },
-                { value: "others", name: "Others" },
-              ].map((_) => (
-                <MenuItem key={_.value} value={_.value}>
-                  {_.name}
-                </MenuItem>
-              ))}
-            </Select>
-            <FormHelperText>
-              {props.touched.profession && props.errors.profession}
-            </FormHelperText>
-          </FormControl>
+            helperText={props.touched.profession && props.errors.profession}
+          />
           <Field
             label="Referral Id"
             name="referredBy"

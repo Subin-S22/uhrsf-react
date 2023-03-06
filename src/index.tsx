@@ -4,21 +4,15 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import ContextProvider from "./store/ContextProvider";
-import { ToastContainer, Zoom } from "react-toastify";
+export const URL = "http://csnservernet.tech/uhrsf_dev/api/v1/uhrsf";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
+
 root.render(
   <ContextProvider>
     <App />
-    <ToastContainer
-      position="bottom-right"
-      newestOnTop={true}
-      closeOnClick
-      autoClose={2000}
-      transition={Zoom}
-    />
   </ContextProvider>
 );
 

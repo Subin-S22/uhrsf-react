@@ -6,6 +6,7 @@ import { AppContext } from "../store";
 import { TYPE } from "../store/reducers/registrationFormReducer";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { URL } from "..";
 
 interface Props {
   validation: any;
@@ -39,15 +40,11 @@ const initialValues: Initial = {
 
 export const memberRegister = async (reqBody) => {
   try {
-    const res = await axios.post(
-      "http://csnservernet.tech/uhrsf_dev/api/v1/uhrsf/member-register",
-      reqBody,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
+    const res = await axios.post(`${URL}/member-register`, reqBody, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
     toast.success("Member Registered Successfully");
     return res;
   } catch (err) {

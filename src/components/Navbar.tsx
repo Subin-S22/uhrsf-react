@@ -1,16 +1,21 @@
 import { Menu, Transition } from "@headlessui/react";
 import React, { Fragment } from "react";
 import { GoThreeBars } from "react-icons/go";
+import { useNavigate } from "react-router-dom";
 
-const navBarTitle = [
-  "Home",
-  "Services",
-  "Download eBook",
-  "About us",
-  "Contact",
-];
+const navBarTitle = ["Home", "Branch Locator"];
 
 function Mobile() {
+  const navigate = useNavigate();
+
+  const handleNavigation = (value) => {
+    if (value === "Home") {
+      navigate("/");
+    } else if (value === "Branch Locator") {
+      navigate("/locator");
+    }
+  };
+
   return (
     <div className=" w-56 text-right">
       <Menu as="div" className="relative inline-block text-left">
@@ -34,6 +39,7 @@ function Mobile() {
                 <Menu.Item key={name}>
                   {({ active }) => (
                     <button
+                      onClick={() => handleNavigation(name)}
                       className={`${
                         active ? "bg-violet-500 text-white" : "text-gray-900"
                       } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
@@ -52,6 +58,15 @@ function Mobile() {
 }
 
 function Navbar() {
+  const navigate = useNavigate();
+
+  const handleNavigation = (value) => {
+    if (value === "Home") {
+      navigate("/");
+    } else if (value === "Branch Locator") {
+      navigate("/locator");
+    }
+  };
   return (
     <div className="sticky top-0 z-10 flex gap-8 w-full bg-dark_blue shadow-lg p-4">
       <div className="flex">
@@ -69,6 +84,7 @@ function Navbar() {
         {navBarTitle.map((title) => {
           return (
             <li
+              onClick={() => handleNavigation(title)}
               key={title}
               className="text-white text-lg hover:text-gray-400 cursor-pointer"
             >
