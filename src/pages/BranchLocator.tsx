@@ -155,10 +155,11 @@ const BranchLocator = () => {
             )}
           </Formik>
         </main>
-
-        <section>
-          <EnhancedTable title="Branch" data={branches} />
-        </section>
+        {branches.length !== 0 && (
+          <section>
+            <EnhancedTable title="Branch" data={branches} />
+          </section>
+        )}
       </div>
     </Layout>
   );
