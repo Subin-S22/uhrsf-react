@@ -247,9 +247,7 @@ export default function PersonalDetails({ handleNext }: Props) {
             name="profession"
             type="text"
             value={props.values.profession}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              handleReferral(e, props)
-            }
+            onChange={props.handleChange}
             error={props.touched.profession && Boolean(props.errors.profession)}
             helperText={props.touched.profession && props.errors.profession}
           />
