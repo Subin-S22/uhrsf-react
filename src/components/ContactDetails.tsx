@@ -1,9 +1,10 @@
 import { Form, Formik } from "formik";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import * as Yup from "yup";
 import Field from "./_Field";
 import { AppContext } from "../store";
 import { TYPE } from "../store/reducers/registrationFormReducer";
+import { State, City, ICity } from "country-state-city";
 
 interface Props {
   validation: any;
@@ -33,11 +34,14 @@ const initialValues: Initial = {
 
 function ContactDetails({ handleNext }: Props) {
   const store = useContext(AppContext);
+  const [cities, setCities] = useState<ICity[] | null>([]);
 
-  console.log(store);
+  console.log(State.getStatesOfCountry("IN"));
+
   return (
     <Formik
       initialValues={initialValues}
+      enableReinitialize
       onSubmit={(values) => {
         store?.action({
           type: TYPE.add,
@@ -64,32 +68,42 @@ function ContactDetails({ handleNext }: Props) {
             helperText={props.touched.address && props.errors.address}
           />
           <Field
+            label="State"
+            name="state"
+            as="select"
+            options={State.getStatesOfCountry("IN").map((state) => ({
+              name: state.name,
+              value: state.name,
+            }))}
+            value={props.values.state}
+            onChange={(e) => {
+              props.handleChange(e);
+              const state = State.getStatesOfCountry("IN").find(
+                (state) => state.name === e.target.value
+              );
+              console.log(state);
+
+              if (!state) return;
+
+              setCities(
+                City.getCitiesOfState(state?.countryCode, state?.isoCode)
+              );
+            }}
+            error={props.touched.state && Boolean(props.errors.state)}
+            helperText={props.touched.state && props.errors.state}
+          />
+          <Field
             label="City"
             name="city"
             as="select"
-            options={[
-              { value: "bangalore", name: "Bangalore" },
-              { value: "chennai", name: "Chennai" },
-              { value: "kochi", name: "Kochi" },
-            ]}
+            options={cities?.map((city) => ({
+              name: city.name,
+              value: city.name,
+            }))}
             value={props.values.city}
             onChange={props.handleChange}
             error={props.touched.city && Boolean(props.errors.city)}
             helperText={props.touched.city && props.errors.city}
-          />
-          <Field
-            label="State"
-            name="state"
-            as="select"
-            options={[
-              { value: "karnataka", name: "Karnataka" },
-              { value: "kerala", name: "Kerala" },
-              { value: "tamilnadu", name: "TamilNadu" },
-            ]}
-            value={props.values.state}
-            onChange={props.handleChange}
-            error={props.touched.state && Boolean(props.errors.state)}
-            helperText={props.touched.state && props.errors.state}
           />
           <Field
             label="Pin Code"
