@@ -2,7 +2,6 @@ import React from "react";
 import "./styles/globals.css";
 import Home from "./pages/Home";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import BranchLocator from "./pages/BranchLocator";
 import { ToastContainer, Zoom } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -19,7 +18,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route index path={"/"} element={<Home />} />
-          <Route path={"/locator"} element={<BranchLocator />} />
+          {/* <Route path={"/locator"} element={<BranchLocator />} /> */}
         </Routes>
       </BrowserRouter>
     </div>

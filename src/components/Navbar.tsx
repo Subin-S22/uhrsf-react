@@ -3,7 +3,7 @@ import React, { Fragment } from "react";
 import { GoThreeBars } from "react-icons/go";
 import { useNavigate } from "react-router-dom";
 
-const navBarTitle = ["Home", "Branch Locator"];
+const navBarTitle = ["Home"];
 
 function Mobile() {
   const navigate = useNavigate();
