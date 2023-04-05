@@ -94,7 +94,7 @@ export default function PersonalDetails({ handleNext }: Props) {
       props.handleChange(e);
       if (e.target.value.length > 9) {
         const res = await axios.get(
-          `http://csnservernet.tech/uhrsf_dev/api/v1/uhrsf/return-referred-details?referredId=${e.target.value}`
+          `https://csnservernet.tech/uhrsf_dev/api/v1/uhrsf/return-referred-details?referredId=${e.target.value}`
         );
         props.setFieldValue("referredByName", res.data.data.referredName);
       }

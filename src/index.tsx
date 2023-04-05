@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import ContextProvider from "./store/ContextProvider";
-export const URL = "http://csnservernet.tech/uhrsf_dev/api/v1/uhrsf";
+export const URL = "https://csnservernet.tech/uhrsf_dev/api/v1/uhrsf";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
