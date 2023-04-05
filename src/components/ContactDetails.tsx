@@ -47,6 +47,8 @@ function ContactDetails({ handleNext }: Props) {
           type: TYPE.add,
           payload: values,
         });
+        console.log(values);
+
         handleNext();
       }}
       validationSchema={validation}
@@ -77,11 +79,12 @@ function ContactDetails({ handleNext }: Props) {
             }))}
             value={props.values.state}
             onChange={(e) => {
-              props.handleChange(e);
+              props.setFieldValue("state", e.target.value);
+              console.log("states", props.values);
+
               const state = State.getStatesOfCountry("IN").find(
                 (state) => state.name === e.target.value
               );
-              console.log(state);
 
               if (!state) return;
 
@@ -101,7 +104,7 @@ function ContactDetails({ handleNext }: Props) {
               value: city.name,
             }))}
             value={props.values.city}
-            onChange={props.handleChange}
+            onChange={(e) => props.setFieldValue("city", e.target.value)}
             error={props.touched.city && Boolean(props.errors.city)}
             helperText={props.touched.city && props.errors.city}
           />
