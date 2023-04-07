@@ -68,7 +68,7 @@ function Navbar() {
     }
   };
   return (
-    <div className="sticky top-0 z-10 flex gap-8 w-full bg-dark_blue shadow-lg p-4">
+    <div className="sticky top-0 z-10 flex w-full bg-dark_blue shadow-lg p-4">
       <div className="flex">
         <img
           src={require("../assets/uhrsf_logo.png")}
