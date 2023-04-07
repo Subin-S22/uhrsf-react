@@ -17,6 +17,7 @@ import DocumentsDetails from "../components/DocumentsDetails";
 import Layout from "../components/Layout";
 import Navbar from "../components/Navbar";
 import PersonalDetails from "../components/PersonalDetails";
+import SuccessPage from "../components/SuccessPage";
 
 const validation = Yup.object().shape({
   name: Yup.string()
@@ -93,7 +94,7 @@ const Home = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [Current, setCurrent] = useState({ p: PersonalDetails });
   const handleNext = () => {
-    if (activeStep < 2) setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    if (activeStep < 3) setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
@@ -110,6 +111,9 @@ const Home = () => {
       case 2:
         setCurrent({ p: DocumentsDetails });
         break;
+      case 3:
+        setCurrent({ p: SuccessPage });
+        break;
       default:
         setCurrent({ p: PersonalDetails });
     }
@@ -121,36 +125,42 @@ const Home = () => {
         <Navbar />
         <main className="flex w-full flex-1 flex-col items-center justify-center bg-gray-300 lg:px-20 px-4 md:px-10 text-center">
           <div className="shadow-xl rounded-md p-4 md:p-8 w-full mt-6 bg-white m-16">
-            <h1 className="text-xl font-semibold font-roboto underline-offset-4 underline">
-              REGISTRATION FORM FOR UHRSF VOLUNTEER
-            </h1>
-            <Stepper
-              activeStep={activeStep}
-              alternativeLabel
-              className="mt-8"
-              connector={<QontoConnector />}
-            >
-              {steps.map((label) => (
-                <Step key={label}>
-                  <StepLabel StepIconComponent={QontoStepIcon}>
-                    {label}
-                  </StepLabel>
-                </Step>
-              ))}
-            </Stepper>
-            <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-              <Button
-                color="inherit"
-                disabled={activeStep === 0}
-                onClick={handleBack}
-                sx={{ mr: 1 }}
+            {activeStep < 3 && (
+              <h1 className="text-xl font-semibold font-roboto underline-offset-4 underline">
+                REGISTRATION FORM FOR UHRSF VOLUNTEER
+              </h1>
+            )}
+            {activeStep < 3 && (
+              <Stepper
+                activeStep={activeStep}
+                alternativeLabel
+                className="mt-8"
+                connector={<QontoConnector />}
               >
-                Back
-              </Button>
-              {/* <Button onClick={handleNext}>
+                {steps.map((label) => (
+                  <Step key={label}>
+                    <StepLabel StepIconComponent={QontoStepIcon}>
+                      {label}
+                    </StepLabel>
+                  </Step>
+                ))}
+              </Stepper>
+            )}
+            {activeStep < 3 && (
+              <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                <Button
+                  color="inherit"
+                  disabled={activeStep === 0}
+                  onClick={handleBack}
+                  sx={{ mr: 1 }}
+                >
+                  Back
+                </Button>
+                {/* <Button onClick={handleNext}>
                 {activeStep === steps.length - 1 ? "Finish" : "Next"}
               </Button> */}
-            </Box>
+              </Box>
+            )}
             <Current.p validation={validation} handleNext={handleNext} />
           </div>
         </main>

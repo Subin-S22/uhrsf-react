@@ -188,9 +188,9 @@ export default function PersonalDetails({ handleNext }: Props) {
               label="Gender"
               onChange={props.handleChange}
             >
-              <MenuItem value={"male"}>Male</MenuItem>
-              <MenuItem value={"female"}>Female</MenuItem>
-              <MenuItem value={"others"}>Others</MenuItem>
+              <MenuItem value={"Male"}>Male</MenuItem>
+              <MenuItem value={"Female"}>Female</MenuItem>
+              <MenuItem value={"Others"}>Others</MenuItem>
             </Select>
             <FormHelperText>
               {props.touched.gender && props.errors.gender}

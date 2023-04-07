@@ -93,6 +93,7 @@ const DocumentsDetails = ({ handleNext }: Props) => {
         JSON.stringify(store?.state.registration)
       );
       await memberRegister(formData);
+      handleNext();
       toast.success("Successfully registered");
     } catch (err: unknown) {
       if (typeof err === "string") {
