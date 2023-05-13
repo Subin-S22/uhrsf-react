@@ -94,7 +94,6 @@ const DocumentsDetails = ({ handleNext }: Props) => {
       );
       await memberRegister(formData);
       handleNext();
-      toast.success("Successfully registered");
     } catch (err: unknown) {
       if (typeof err === "string") {
         toast.error(err);
