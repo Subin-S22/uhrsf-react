@@ -24,7 +24,7 @@ const validation = Yup.object({
 
 type Initial = Yup.InferType<typeof validation>;
 
-const initialValues: Initial = {
+let initialValues: Initial = {
   address: "",
   city: "",
   state: "",
@@ -37,6 +37,9 @@ function ContactDetails({ handleNext }: Props) {
   const [cities, setCities] = useState<ICity[] | null>([]);
 
   console.log(State.getStatesOfCountry("IN"));
+  initialValues = store?.state.registration?.address
+    ? store.state.registration
+    : initialValues;
 
   return (
     <Formik

@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import Field from "./_Field";
 import { AppContext } from "../store";
 import { TYPE } from "../store/reducers/registrationFormReducer";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import { URL } from "..";
 
@@ -30,7 +30,7 @@ const validation = Yup.object({
 
 type Initial = Yup.InferType<typeof validation>;
 
-const initialValues: Initial = {
+let initialValues: Initial = {
   aadharcard: "",
   aadharCardLink: "",
   pancard: "",
@@ -88,17 +88,28 @@ const DocumentsDetails = ({ handleNext }: Props) => {
       delete values.aadharCardLink;
       delete values.panCardLink;
       delete values.memberPhotoLink;
+      delete store?.state.registration.aadharCardLink;
+      delete store?.state.registration.panCardLink;
+      delete store?.state.registration.memberPhotoLink;
+
+      console.log(store?.state.registration, values);
       formData.append(
         "memberRegister",
-        JSON.stringify(store?.state.registration)
+        JSON.stringify({
+          ...store?.state.registration,
+          aadharcard: values.aadharcard,
+          pancard: values.pancard,
+        })
       );
+
       await memberRegister(formData);
       handleNext();
     } catch (err: unknown) {
       if (typeof err === "string") {
         toast.error(err);
-      } else if (err instanceof Error) {
-        toast.error(err.message);
+      } else if (err instanceof AxiosError) {
+        console.log(err);
+        toast.error(err.response?.data.message || err.message);
       }
     }
   };
@@ -137,7 +148,10 @@ const DocumentsDetails = ({ handleNext }: Props) => {
             value={props.values.aadharCardLink}
             onChange={(e) => {
               props.handleChange(e);
-              setPhotos(e.target.files?.[0] as any);
+              setPhotos((photo) => ({
+                ...photo,
+                aadharPhoto: e.target.files?.[0] as any,
+              }));
             }}
             error={
               props.touched.aadharCardLink &&
@@ -163,7 +177,10 @@ const DocumentsDetails = ({ handleNext }: Props) => {
             value={props.values.panCardLink}
             onChange={(e) => {
               props.handleChange(e);
-              setPhotos(e.target.files?.[0] as any);
+              setPhotos((photo) => ({
+                ...photo,
+                pancardPhoto: e.target.files?.[0] as any,
+              }));
             }}
             error={
               props.touched.panCardLink && Boolean(props.errors.panCardLink)
@@ -177,7 +194,10 @@ const DocumentsDetails = ({ handleNext }: Props) => {
             value={props.values.memberPhotoLink}
             onChange={(e) => {
               props.handleChange(e);
-              setPhotos(e.target.files?.[0] as any);
+              setPhotos((photo) => ({
+                ...photo,
+                memberPhoto: e.target.files?.[0] as any,
+              }));
             }}
             error={
               props.touched.memberPhotoLink &&

@@ -69,7 +69,7 @@ const validation = Yup.object({
 
 type Initial = Yup.InferType<typeof validation>;
 
-const initialValues: Initial = {
+let initialValues: Initial = {
   firstAndLastName: "",
   emailId: "",
   parentsName: "",
@@ -103,7 +103,10 @@ export default function PersonalDetails({ handleNext }: Props) {
     }
   };
 
-  console.log(store);
+  initialValues = store?.state?.registration
+    ? store.state.registration
+    : initialValues;
+
   return (
     <Formik
       initialValues={initialValues}
@@ -114,6 +117,7 @@ export default function PersonalDetails({ handleNext }: Props) {
         });
         handleNext();
       }}
+      enableReinitialize
       validationSchema={validation}
     >
       {(props) => (
